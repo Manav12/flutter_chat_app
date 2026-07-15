@@ -10,7 +10,6 @@ class UserModel extends UserEntity {
     required super.name,
     required super.email,
     required super.createdAt,
-    super.photoUrl,
   });
 
   factory UserModel.fromEntity(UserEntity entity) => UserModel(
@@ -18,7 +17,6 @@ class UserModel extends UserEntity {
     name: entity.name,
     email: entity.email,
     createdAt: entity.createdAt,
-    photoUrl: entity.photoUrl,
   );
 
   factory UserModel.fromRawJson(String str) =>
@@ -36,7 +34,6 @@ class UserModel extends UserEntity {
             ? json['createdAt'] as int
             : int.tryParse(json['createdAt']?.toString() ?? '') ?? 0,
       ),
-      photoUrl: json['photoUrl']?.toString(),
     );
   }
 
@@ -45,6 +42,5 @@ class UserModel extends UserEntity {
     'name': name,
     'email': email,
     'createdAt': createdAt.millisecondsSinceEpoch,
-    'photoUrl': photoUrl,
   };
 }

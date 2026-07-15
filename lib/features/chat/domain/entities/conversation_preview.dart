@@ -10,12 +10,14 @@ class ConversationPreview extends Equatable {
     this.lastMessageText,
     this.lastMessageAt,
     this.lastMessageSenderId,
+    this.unreadCount = 0,
   });
 
   final UserEntity peer;
   final String? lastMessageText;
   final DateTime? lastMessageAt;
   final String? lastMessageSenderId;
+  final int unreadCount;
 
   bool get hasConversation => lastMessageAt != null;
 
@@ -25,5 +27,6 @@ class ConversationPreview extends Equatable {
     lastMessageText,
     lastMessageAt,
     lastMessageSenderId,
+    unreadCount,
   ];
 }

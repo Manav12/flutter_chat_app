@@ -45,7 +45,6 @@ void main() {
       expect(sentMessage.senderId, 'uidA');
       expect(sentMessage.receiverId, 'uidB');
       expect(sentMessage.text, 'hello');
-      expect(sentMessage.type, MessageType.text);
       expect(sentMessage.conversationId, buildConversationId('uidA', 'uidB'));
     },
   );

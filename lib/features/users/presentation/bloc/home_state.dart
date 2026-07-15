@@ -12,12 +12,14 @@ class HomeListItem extends Equatable {
     this.lastMessageText,
     this.lastMessageAt,
     this.lastMessageSenderId,
+    this.unreadCount = 1,
   });
 
   final UserEntity user;
   final String? lastMessageText;
   final DateTime? lastMessageAt;
   final String? lastMessageSenderId;
+  final int unreadCount;
 
   bool get hasConversation => lastMessageAt != null;
 
@@ -27,6 +29,7 @@ class HomeListItem extends Equatable {
     lastMessageText,
     lastMessageAt,
     lastMessageSenderId,
+    unreadCount,
   ];
 }
 

@@ -14,31 +14,34 @@ import '../../../../helpers/mocks.dart';
 void main() {
   late MockWatchMessagesUseCase watchMessages;
   late MockSendMessageUseCase sendMessage;
-  late MockSendImageMessageUseCase sendImageMessage;
   late MockEditMessageUseCase editMessage;
   late MockDeleteMessageUseCase deleteMessage;
+  late MockMarkConversationReadUseCase markConversationRead;
 
   setUpAll(() {
     registerFallbackValue(FakeWatchMessagesParams());
     registerFallbackValue(FakeSendMessageParams());
-    registerFallbackValue(FakeSendImageMessageParams());
+    registerFallbackValue(FakeMarkConversationReadParams());
   });
 
   setUp(() {
     watchMessages = MockWatchMessagesUseCase();
     sendMessage = MockSendMessageUseCase();
-    sendImageMessage = MockSendImageMessageUseCase();
     editMessage = MockEditMessageUseCase();
     deleteMessage = MockDeleteMessageUseCase();
+    markConversationRead = MockMarkConversationReadUseCase();
     when(() => watchMessages(any())).thenAnswer((_) => const Stream.empty());
+    when(
+      () => markConversationRead(any()),
+    ).thenAnswer((_) async => const Success(null));
   });
 
   ChatBloc buildBloc() => ChatBloc(
     watchMessages: watchMessages,
     sendMessage: sendMessage,
-    sendImageMessage: sendImageMessage,
     editMessage: editMessage,
     deleteMessage: deleteMessage,
+    markConversationRead: markConversationRead,
   );
 
   blocTest<ChatBloc, ChatState>(

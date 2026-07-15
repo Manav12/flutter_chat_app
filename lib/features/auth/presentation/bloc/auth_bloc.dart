@@ -164,10 +164,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         clearError: true,
       ),
     );
-    final updated = currentUser.copyWith(
-      name: event.name,
-      photoUrl: event.photoUrl,
-    );
+    final updated = currentUser.copyWith(name: event.name);
     final result = await _updateProfile(updated);
     result.fold(
       (failure) => emit(

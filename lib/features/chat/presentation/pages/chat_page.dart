@@ -1,9 +1,7 @@
 // This is chat screen, where user actually send and see message with
-// one other person. It also let user edit or delete his own message,
-// and send photo.
+// one other person. It also let user edit or delete his own message.
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:image_picker/image_picker.dart';
 
 import '../../../../core/di/injection_container.dart';
 import '../../../../core/widgets/dismiss_keyboard.dart';
@@ -30,8 +28,9 @@ class ChatPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final currentUserId = context.read<AuthBloc>().state.user!.uid;
     return BlocProvider(
-      create: (_) => sl<ChatBloc>()
-        ..add(ChatStarted(currentUserId: currentUserId, peerId: peer.uid)),
+      create: (_) =>
+          sl<ChatBloc>()
+            ..add(ChatStarted(currentUserId: currentUserId, peerId: peer.uid)),
       child: _ChatView(peer: peer, currentUserId: currentUserId),
     );
   }
@@ -48,17 +47,6 @@ class _ChatView extends StatefulWidget {
 }
 
 class _ChatViewState extends State<_ChatView> {
-  final _picker = ImagePicker();
-
-  Future<void> _pickImage() async {
-    final file = await _picker.pickImage(
-      source: ImageSource.gallery,
-      imageQuality: 80,
-    );
-    if (file == null || !mounted) return;
-    context.read<ChatBloc>().add(ChatImageMessageSent(file.path));
-  }
-
   void _editMessage(MessageEntity message) {
     final chatBloc = context.read<ChatBloc>();
     showModalBottomSheet<void>(
@@ -92,7 +80,9 @@ class _ChatViewState extends State<_ChatView> {
   Widget build(BuildContext context) {
     return DismissKeyboard(
       child: Scaffold(
+        resizeToAvoidBottomInset: true,
         appBar: AppBar(
+          toolbarHeight: 40,
           title: Row(
             children: [
               CircleAvatar(
@@ -120,7 +110,9 @@ class _ChatViewState extends State<_ChatView> {
                 listener: (context, state) {
                   ScaffoldMessenger.of(context)
                     ..hideCurrentSnackBar()
-                    ..showSnackBar(SnackBar(content: Text(state.errorMessage!)));
+                    ..showSnackBar(
+                      SnackBar(content: Text(state.errorMessage!)),
+                    );
                   context.read<ChatBloc>().add(const ChatErrorDismissed());
                 },
                 builder: (context, state) {
@@ -151,8 +143,7 @@ class _ChatViewState extends State<_ChatView> {
                         itemBuilder: (context, index) {
                           final message =
                               state.messages[state.messages.length - 1 - index];
-                          final isMe =
-                              message.senderId == widget.currentUserId;
+                          final isMe = message.senderId == widget.currentUserId;
                           return MessageBubble(
                             message: message,
                             isMe: isMe,
@@ -173,7 +164,6 @@ class _ChatViewState extends State<_ChatView> {
                   isSending: state.isSending,
                   onSendText: (text) =>
                       context.read<ChatBloc>().add(ChatTextMessageSent(text)),
-                  onSendImage: _pickImage,
                 );
               },
             ),

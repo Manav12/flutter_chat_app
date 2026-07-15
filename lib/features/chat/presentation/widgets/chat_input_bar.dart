@@ -1,17 +1,15 @@
-// This widget is bottom bar of chat screen, where user type message,
-// pick photo, or hit send.
+// This widget is bottom bar of chat screen, where user type message and
+// hit send.
 import 'package:flutter/material.dart';
 
 class ChatInputBar extends StatefulWidget {
   const ChatInputBar({
     super.key,
     required this.onSendText,
-    required this.onSendImage,
     required this.isSending,
   });
 
   final ValueChanged<String> onSendText;
-  final VoidCallback onSendImage;
   final bool isSending;
 
   @override
@@ -32,6 +30,7 @@ class _ChatInputBarState extends State<ChatInputBar> {
     if (text.isEmpty) return;
     widget.onSendText(text);
     _controller.clear();
+    FocusScope.of(context).unfocus();
   }
 
   @override
@@ -39,13 +38,9 @@ class _ChatInputBarState extends State<ChatInputBar> {
     return SafeArea(
       top: false,
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
         child: Row(
           children: [
-            IconButton(
-              icon: const Icon(Icons.photo_outlined),
-              onPressed: widget.isSending ? null : widget.onSendImage,
-            ),
             Expanded(
               child: TextField(
                 controller: _controller,
@@ -53,11 +48,19 @@ class _ChatInputBarState extends State<ChatInputBar> {
                 maxLines: 4,
                 textInputAction: TextInputAction.send,
                 onSubmitted: (_) => _send(),
-                decoration: const InputDecoration(hintText: 'Message'),
+                decoration: const InputDecoration(
+                  hintText: 'Message',
+                  isDense: true,
+                  contentPadding: EdgeInsets.symmetric(
+                    horizontal: 14,
+                    vertical: 12,
+                  ),
+                ),
               ),
             ),
             const SizedBox(width: 4),
             IconButton.filled(
+              visualDensity: VisualDensity.compact,
               icon: widget.isSending
                   ? const SizedBox(
                       height: 18,

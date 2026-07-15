@@ -1,11 +1,13 @@
 // This file connect all pieces of app together (data source, repo, use
 // case, bloc), one time when app start.
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 import '../../features/auth/data/datasources/auth_remote_data_source.dart';
-import '../../features/auth/data/datasources/fake_auth_remote_data_source.dart';
+import '../../features/auth/data/datasources/firebase_auth_remote_data_source.dart';
 import '../../features/auth/data/repositories/auth_repository_impl.dart';
 import '../../features/auth/domain/repositories/auth_repository.dart';
 import '../../features/auth/domain/usecases/login_usecase.dart';
@@ -17,17 +19,17 @@ import '../../features/auth/presentation/bloc/auth_bloc.dart';
 import '../../features/chat/data/datasources/chat_local_data_source.dart';
 import '../../features/chat/data/datasources/chat_local_data_source_impl.dart';
 import '../../features/chat/data/datasources/chat_remote_data_source.dart';
-import '../../features/chat/data/datasources/fake_chat_remote_data_source.dart';
+import '../../features/chat/data/datasources/firebase_chat_remote_data_source.dart';
 import '../../features/chat/data/repositories/chat_repository_impl.dart';
 import '../../features/chat/domain/repositories/chat_repository.dart';
 import '../../features/chat/domain/usecases/delete_message_usecase.dart';
 import '../../features/chat/domain/usecases/edit_message_usecase.dart';
-import '../../features/chat/domain/usecases/send_image_message_usecase.dart';
+import '../../features/chat/domain/usecases/mark_conversation_read_usecase.dart';
 import '../../features/chat/domain/usecases/send_message_usecase.dart';
 import '../../features/chat/domain/usecases/watch_conversations_usecase.dart';
 import '../../features/chat/domain/usecases/watch_messages_usecase.dart';
 import '../../features/chat/presentation/bloc/chat_bloc.dart';
-import '../../features/users/data/datasources/fake_user_remote_data_source.dart';
+import '../../features/users/data/datasources/firebase_user_remote_data_source.dart';
 import '../../features/users/data/datasources/user_local_data_source.dart';
 import '../../features/users/data/datasources/user_local_data_source_impl.dart';
 import '../../features/users/data/datasources/user_remote_data_source.dart';
@@ -66,12 +68,14 @@ Future<void> _initHive() async {
 Future<void> _initCore() async {
   sl.registerLazySingleton(Connectivity.new);
   sl.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(sl()));
+  sl.registerLazySingleton(() => FirebaseAuth.instance);
+  sl.registerLazySingleton(() => FirebaseFirestore.instance);
 }
 
 void _initAuth() {
   sl
     ..registerLazySingleton<AuthRemoteDataSource>(
-      FakeAuthRemoteDataSource.new,
+      () => FirebaseAuthRemoteDataSource(sl()),
     )
     ..registerLazySingleton<AuthRepository>(() => AuthRepositoryImpl(sl()))
     ..registerFactory(() => LoginUseCase(sl(), sl()))
@@ -94,7 +98,7 @@ void _initAuth() {
 void _initUsers() {
   sl
     ..registerLazySingleton<UserRemoteDataSource>(
-      FakeUserRemoteDataSource.new,
+      () => FirebaseUserRemoteDataSource(sl()),
     )
     ..registerLazySingleton<UserLocalDataSource>(
       () => UserLocalDataSourceImpl(sl(instanceName: 'usersBox')),
@@ -118,7 +122,7 @@ void _initUsers() {
 void _initChat() {
   sl
     ..registerLazySingleton<ChatRemoteDataSource>(
-      FakeChatRemoteDataSource.new,
+      () => FirebaseChatRemoteDataSource(sl()),
     )
     ..registerLazySingleton<ChatLocalDataSource>(
       () => ChatLocalDataSourceImpl(sl(instanceName: 'messagesBox')),
@@ -132,20 +136,20 @@ void _initChat() {
       ),
     )
     ..registerFactory(() => SendMessageUseCase(sl()))
-    ..registerFactory(() => SendImageMessageUseCase(sl()))
     ..registerFactory(() => WatchMessagesUseCase(sl()))
     ..registerFactory(() => EditMessageUseCase(sl()))
     ..registerFactory(() => DeleteMessageUseCase(sl()))
     ..registerFactory(() => WatchConversationsUseCase(sl()))
+    ..registerFactory(() => MarkConversationReadUseCase(sl()))
     // Factory — a fresh ChatBloc per conversation opened, scoped to
     // that one screen and disposed when it closes.
     ..registerFactory(
       () => ChatBloc(
         watchMessages: sl(),
         sendMessage: sl(),
-        sendImageMessage: sl(),
         editMessage: sl(),
         deleteMessage: sl(),
+        markConversationRead: sl(),
       ),
     );
 }

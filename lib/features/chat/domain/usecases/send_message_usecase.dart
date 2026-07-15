@@ -31,7 +31,6 @@ class SendMessageUseCase extends UseCase<void, SendMessageParams> {
       senderId: params.senderId,
       receiverId: params.receiverId,
       text: params.text.trim(),
-      type: MessageType.text,
       timestamp: DateTime.now(),
     );
     return _repository.sendMessage(message);

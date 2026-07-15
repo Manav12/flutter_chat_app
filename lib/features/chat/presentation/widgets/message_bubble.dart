@@ -1,7 +1,7 @@
 // This widget draw one chat message bubble. Sent message align right in
 // blue, received message align left in grey. Long-press own message to
 // edit or delete it.
-import 'dart:io';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 
@@ -26,7 +26,6 @@ class MessageBubble extends StatelessWidget {
 
   void _showActions(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
-    final canEditThisMessage = message.type == MessageType.text;
     showModalBottomSheet<void>(
       context: context,
       shape: const RoundedRectangleBorder(
@@ -39,21 +38,20 @@ class MessageBubble extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               const BottomSheetHandle(),
-              if (canEditThisMessage)
-                ListTile(
-                  leading: CircleAvatar(
-                    backgroundColor: colorScheme.primaryContainer,
-                    child: Icon(
-                      Icons.edit_outlined,
-                      color: colorScheme.onPrimaryContainer,
-                    ),
+              ListTile(
+                leading: CircleAvatar(
+                  backgroundColor: colorScheme.primaryContainer,
+                  child: Icon(
+                    Icons.edit_outlined,
+                    color: colorScheme.onPrimaryContainer,
                   ),
-                  title: const Text('Edit message'),
-                  onTap: () {
-                    Navigator.of(sheetContext).pop();
-                    onEdit();
-                  },
                 ),
+                title: const Text('Edit message'),
+                onTap: () {
+                  Navigator.of(sheetContext).pop();
+                  onEdit();
+                },
+              ),
               ListTile(
                 leading: CircleAvatar(
                   backgroundColor: colorScheme.errorContainer,
@@ -91,7 +89,7 @@ class MessageBubble extends StatelessWidget {
           margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
           padding: const EdgeInsets.all(10),
           constraints: BoxConstraints(
-            maxWidth: MediaQuery.sizeOf(context).width * 0.75,
+            maxWidth: min(MediaQuery.sizeOf(context).width * 0.75, 320),
           ),
           decoration: BoxDecoration(
             color: bubbleColor,
@@ -106,14 +104,7 @@ class MessageBubble extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.end,
             mainAxisSize: MainAxisSize.min,
             children: [
-              if (message.type == MessageType.image &&
-                  message.mediaUrl != null)
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
-                  child: _MessageImage(path: message.mediaUrl!),
-                )
-              else
-                Text(message.text, style: TextStyle(color: textColor)),
+              Text(message.text, style: TextStyle(color: textColor)),
               const SizedBox(height: 4),
               Row(
                 mainAxisSize: MainAxisSize.min,
@@ -142,33 +133,6 @@ class MessageBubble extends StatelessWidget {
           ),
         ),
       ),
-    );
-  }
-}
-
-class _MessageImage extends StatelessWidget {
-  const _MessageImage({required this.path});
-
-  final String path;
-
-  @override
-  Widget build(BuildContext context) {
-    final isRemote = path.startsWith('http');
-    final errorIcon = const Icon(Icons.broken_image_outlined);
-    return SizedBox(
-      width: 200,
-      height: 200,
-      child: isRemote
-          ? Image.network(
-              path,
-              fit: BoxFit.cover,
-              errorBuilder: (_, _, _) => errorIcon,
-            )
-          : Image.file(
-              File(path),
-              fit: BoxFit.cover,
-              errorBuilder: (_, _, _) => errorIcon,
-            ),
     );
   }
 }

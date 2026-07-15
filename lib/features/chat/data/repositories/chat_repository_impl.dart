@@ -139,6 +139,7 @@ class ChatRepositoryImpl implements ChatRepository {
                 lastMessageText: doc.lastMessageText,
                 lastMessageAt: doc.lastMessageAt,
                 lastMessageSenderId: doc.lastMessageSenderId,
+                unreadCount: doc.unreadCountFor(currentUserId),
               ),
             ),
           );
@@ -156,18 +157,20 @@ class ChatRepositoryImpl implements ChatRepository {
   }
 
   @override
-  Future<Result<String>> uploadChatImage({
+  Future<Result<void>> markConversationRead({
     required String conversationId,
-    required String localFilePath,
+    required String currentUserId,
+    required String peerId,
   }) async {
     try {
-      final url = await _remoteDataSource
-          .uploadChatImage(
+      await _remoteDataSource
+          .markConversationRead(
             conversationId: conversationId,
-            localFilePath: localFilePath,
+            currentUserId: currentUserId,
+            peerId: peerId,
           )
           .timeout(_timeout);
-      return Success(url);
+      return const Success(null);
     } on TimeoutException {
       return const ResultFailure(TimeoutFailure());
     } catch (_) {

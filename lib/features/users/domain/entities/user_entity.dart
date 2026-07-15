@@ -1,5 +1,4 @@
-// This file describe what user profile look like, like name, email,
-// photo.
+// This file describe what user profile look like, like name, email.
 import 'package:equatable/equatable.dart';
 
 class UserEntity extends Equatable {
@@ -8,25 +7,22 @@ class UserEntity extends Equatable {
     required this.name,
     required this.email,
     required this.createdAt,
-    this.photoUrl,
   });
 
   final String uid;
   final String name;
   final String email;
   final DateTime createdAt;
-  final String? photoUrl;
 
-  UserEntity copyWith({String? name, String? photoUrl}) {
+  UserEntity copyWith({String? name}) {
     return UserEntity(
       uid: uid,
       name: name ?? this.name,
       email: email,
       createdAt: createdAt,
-      photoUrl: photoUrl ?? this.photoUrl,
     );
   }
 
   @override
-  List<Object?> get props => [uid, name, email, createdAt, photoUrl];
+  List<Object?> get props => [uid, name, email, createdAt];
 }

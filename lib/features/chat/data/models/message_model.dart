@@ -11,9 +11,7 @@ class MessageModel extends MessageEntity {
     required super.senderId,
     required super.receiverId,
     required super.text,
-    required super.type,
     required super.timestamp,
-    super.mediaUrl,
     super.editedAt,
   });
 
@@ -23,9 +21,7 @@ class MessageModel extends MessageEntity {
     senderId: entity.senderId,
     receiverId: entity.receiverId,
     text: entity.text,
-    type: entity.type,
     timestamp: entity.timestamp,
-    mediaUrl: entity.mediaUrl,
     editedAt: entity.editedAt,
   );
 
@@ -41,16 +37,11 @@ class MessageModel extends MessageEntity {
       senderId: json['senderId']?.toString() ?? '',
       receiverId: json['receiverId']?.toString() ?? '',
       text: json['text']?.toString() ?? '',
-      type: MessageType.values.firstWhere(
-        (value) => value.name == json['type']?.toString(),
-        orElse: () => MessageType.text,
-      ),
       timestamp: DateTime.fromMillisecondsSinceEpoch(
         json['timestamp'] is int
             ? json['timestamp'] as int
             : int.tryParse(json['timestamp']?.toString() ?? '') ?? 0,
       ),
-      mediaUrl: json['mediaUrl']?.toString(),
       editedAt: json['editedAt'] == null
           ? null
           : DateTime.fromMillisecondsSinceEpoch(
@@ -67,9 +58,7 @@ class MessageModel extends MessageEntity {
     'senderId': senderId,
     'receiverId': receiverId,
     'text': text,
-    'type': type.name,
     'timestamp': timestamp.millisecondsSinceEpoch,
-    'mediaUrl': mediaUrl,
     'editedAt': editedAt?.millisecondsSinceEpoch,
   };
 }

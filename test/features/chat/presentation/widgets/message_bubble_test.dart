@@ -1,6 +1,6 @@
 // This file test MessageBubble widget, check sent message go right with
 // right color, received message go left with different color, and edit
-// option only show for your own text message (not photo message).
+// option only show for your own message.
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_app/core/theme/app_colors.dart';
 import 'package:flutter_chat_app/features/chat/domain/entities/message_entity.dart';
@@ -14,7 +14,6 @@ void main() {
     senderId: 'me',
     receiverId: 'peer',
     text: 'Hello there',
-    type: MessageType.text,
     timestamp: DateTime(2024, 1, 1, 10, 30),
   );
 
@@ -76,30 +75,6 @@ void main() {
     await tester.pump(const Duration(milliseconds: 300));
 
     expect(find.text('Edit message'), findsOneWidget);
-    expect(find.text('Delete message'), findsOneWidget);
-  });
-
-  testWidgets('long-pressing your own photo message only offers delete', (
-    tester,
-  ) async {
-    final imageMessage = MessageEntity(
-      id: 'm2',
-      conversationId: 'c1',
-      senderId: 'me',
-      receiverId: 'peer',
-      text: '',
-      type: MessageType.image,
-      timestamp: DateTime(2024, 1, 1),
-      mediaUrl: '/fake/local/path/photo.jpg',
-    );
-
-    await pumpBubble(tester, message: imageMessage, isMe: true);
-
-    await tester.longPress(find.byType(GestureDetector));
-    await tester.pump();
-    await tester.pump(const Duration(milliseconds: 300));
-
-    expect(find.text('Edit message'), findsNothing);
     expect(find.text('Delete message'), findsOneWidget);
   });
 

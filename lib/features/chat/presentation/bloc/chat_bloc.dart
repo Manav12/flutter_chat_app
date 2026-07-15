@@ -6,7 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../domain/usecases/delete_message_usecase.dart';
 import '../../domain/usecases/edit_message_usecase.dart';
-import '../../domain/usecases/send_image_message_usecase.dart';
+import '../../domain/usecases/mark_conversation_read_usecase.dart';
 import '../../domain/usecases/send_message_usecase.dart';
 import '../../domain/usecases/watch_messages_usecase.dart';
 import 'chat_event.dart';
@@ -16,19 +16,18 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
   ChatBloc({
     required WatchMessagesUseCase watchMessages,
     required SendMessageUseCase sendMessage,
-    required SendImageMessageUseCase sendImageMessage,
     required EditMessageUseCase editMessage,
     required DeleteMessageUseCase deleteMessage,
+    required MarkConversationReadUseCase markConversationRead,
   }) : _watchMessages = watchMessages,
        _sendMessage = sendMessage,
-       _sendImageMessage = sendImageMessage,
        _editMessage = editMessage,
        _deleteMessage = deleteMessage,
+       _markConversationRead = markConversationRead,
        super(const ChatState()) {
     on<ChatStarted>(_onStarted);
     on<ChatMessagesUpdated>(_onMessagesUpdated);
     on<ChatTextMessageSent>(_onTextMessageSent);
-    on<ChatImageMessageSent>(_onImageMessageSent);
     on<ChatMessageEditRequested>(_onEditRequested);
     on<ChatMessageDeleteRequested>(_onDeleteRequested);
     on<ChatErrorDismissed>(
@@ -38,9 +37,9 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
 
   final WatchMessagesUseCase _watchMessages;
   final SendMessageUseCase _sendMessage;
-  final SendImageMessageUseCase _sendImageMessage;
   final EditMessageUseCase _editMessage;
   final DeleteMessageUseCase _deleteMessage;
+  final MarkConversationReadUseCase _markConversationRead;
 
   String? _currentUserId;
   String? _peerId;
@@ -56,6 +55,14 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
         peerId: event.peerId,
       ),
     ).listen((result) => add(ChatMessagesUpdated(result)));
+    unawaited(
+      _markConversationRead(
+        MarkConversationReadParams(
+          currentUserId: event.currentUserId,
+          peerId: event.peerId,
+        ),
+      ),
+    );
   }
 
   void _onMessagesUpdated(ChatMessagesUpdated event, Emitter<ChatState> emit) {
@@ -92,38 +99,6 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
         senderId: senderId,
         receiverId: receiverId,
         text: event.text,
-      ),
-    );
-    result.fold(
-      (failure) => emit(
-        state.copyWith(
-          submitAction: ChatSubmitAction.none,
-          errorMessage: failure.message,
-        ),
-      ),
-      (_) => emit(state.copyWith(submitAction: ChatSubmitAction.none)),
-    );
-  }
-
-  Future<void> _onImageMessageSent(
-    ChatImageMessageSent event,
-    Emitter<ChatState> emit,
-  ) async {
-    final senderId = _currentUserId;
-    final receiverId = _peerId;
-    if (senderId == null || receiverId == null) return;
-
-    emit(
-      state.copyWith(
-        submitAction: ChatSubmitAction.sendMessage,
-        clearError: true,
-      ),
-    );
-    final result = await _sendImageMessage(
-      SendImageMessageParams(
-        senderId: senderId,
-        receiverId: receiverId,
-        localFilePath: event.localFilePath,
       ),
     );
     result.fold(

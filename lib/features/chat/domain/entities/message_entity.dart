@@ -2,8 +2,6 @@
 // time.
 import 'package:equatable/equatable.dart';
 
-enum MessageType { text, image }
-
 class MessageEntity extends Equatable {
   const MessageEntity({
     required this.id,
@@ -11,9 +9,7 @@ class MessageEntity extends Equatable {
     required this.senderId,
     required this.receiverId,
     required this.text,
-    required this.type,
     required this.timestamp,
-    this.mediaUrl,
     this.editedAt,
   });
 
@@ -22,9 +18,7 @@ class MessageEntity extends Equatable {
   final String senderId;
   final String receiverId;
   final String text;
-  final MessageType type;
   final DateTime timestamp;
-  final String? mediaUrl;
   final DateTime? editedAt;
 
   bool get isEdited => editedAt != null;
@@ -36,9 +30,7 @@ class MessageEntity extends Equatable {
       senderId: senderId,
       receiverId: receiverId,
       text: text ?? this.text,
-      type: type,
       timestamp: timestamp,
-      mediaUrl: mediaUrl,
       editedAt: editedAt ?? this.editedAt,
     );
   }
@@ -50,9 +42,7 @@ class MessageEntity extends Equatable {
     senderId,
     receiverId,
     text,
-    type,
     timestamp,
-    mediaUrl,
     editedAt,
   ];
 }

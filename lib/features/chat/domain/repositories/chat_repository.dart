@@ -1,5 +1,5 @@
 // This file describe what chat system can do, like send, edit, delete,
-// watch message, and upload photo.
+// and watch message.
 import '../../../../core/utils/result.dart';
 import '../entities/conversation_preview.dart';
 import '../entities/message_entity.dart';
@@ -24,8 +24,9 @@ abstract class ChatRepository {
     String currentUserId,
   );
 
-  Future<Result<String>> uploadChatImage({
+  Future<Result<void>> markConversationRead({
     required String conversationId,
-    required String localFilePath,
+    required String currentUserId,
+    required String peerId,
   });
 }

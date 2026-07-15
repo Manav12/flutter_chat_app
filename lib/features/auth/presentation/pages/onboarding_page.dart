@@ -16,50 +16,52 @@ class OnboardingPage extends StatelessWidget {
 
     return Scaffold(
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(24),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              const Spacer(),
-              Center(
-                child: CircleAvatar(
-                  radius: 56,
-                  backgroundColor: colorScheme.primaryContainer,
-                  child: Icon(
-                    Icons.chat_bubble_rounded,
-                    size: 56,
-                    color: colorScheme.onPrimaryContainer,
+        child: Center(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(24),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Center(
+                  child: CircleAvatar(
+                    radius: 56,
+                    backgroundColor: colorScheme.primaryContainer,
+                    child: Icon(
+                      Icons.chat_bubble_rounded,
+                      size: 56,
+                      color: colorScheme.onPrimaryContainer,
+                    ),
                   ),
                 ),
-              ),
-              const SizedBox(height: 24),
-              Text(
-                'Chat App',
-                textAlign: TextAlign.center,
-                style: textTheme.headlineMedium?.copyWith(
-                  fontWeight: FontWeight.bold,
+                const SizedBox(height: 24),
+                Text(
+                  'Chat App',
+                  textAlign: TextAlign.center,
+                  style: textTheme.headlineMedium?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-              ),
-              const SizedBox(height: 12),
-              Text(
-                'Real-time conversations, wherever you are.',
-                textAlign: TextAlign.center,
-                style: textTheme.bodyLarge?.copyWith(
-                  color: colorScheme.onSurfaceVariant,
+                const SizedBox(height: 12),
+                Text(
+                  'Real-time conversations, wherever you are.',
+                  textAlign: TextAlign.center,
+                  style: textTheme.bodyLarge?.copyWith(
+                    color: colorScheme.onSurfaceVariant,
+                  ),
                 ),
-              ),
-              const Spacer(),
-              PrimaryButton(
-                label: 'Log in',
-                onPressed: () => context.push('/login'),
-              ),
-              const SizedBox(height: 12),
-              OutlinedButton(
-                onPressed: () => context.push('/register'),
-                child: const Text('Create an account'),
-              ),
-            ],
+                const SizedBox(height: 48),
+                PrimaryButton(
+                  label: 'Log in',
+                  onPressed: () => context.push('/login'),
+                ),
+                const SizedBox(height: 12),
+                OutlinedButton(
+                  onPressed: () => context.push('/register'),
+                  child: const Text('Create an account'),
+                ),
+              ],
+            ),
           ),
         ),
       ),

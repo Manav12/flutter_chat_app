@@ -79,7 +79,11 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
   void _emitMerged(Emitter<HomeState> emit) {
     final usersResult = _latestUsersResult;
-    if (usersResult == null) return;
+    final conversationsResult = _latestConversationsResult;
+    // Wait for both streams' first snapshot before rendering anything —
+    // otherwise the list briefly renders with every user showing "Say
+    // hi" before the conversations stream catches up moments later.
+    if (usersResult == null || conversationsResult == null) return;
 
     usersResult.fold(
       (failure) {
@@ -97,7 +101,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       },
       (users) {
         final conversations = <ConversationPreview>[];
-        _latestConversationsResult?.fold(
+        conversationsResult.fold(
           (_) {},
           (list) => conversations.addAll(list),
         );
@@ -110,6 +114,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
             lastMessageText: convo?.lastMessageText,
             lastMessageAt: convo?.lastMessageAt,
             lastMessageSenderId: convo?.lastMessageSenderId,
+            unreadCount: convo?.unreadCount ?? 0,
           );
         }).toList();
 

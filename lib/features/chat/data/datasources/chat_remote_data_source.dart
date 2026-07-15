@@ -1,5 +1,5 @@
 // This file describe what chat backend must do, like send, watch, edit,
-// delete message and upload photo.
+// and delete message.
 import '../models/conversation_doc_model.dart';
 import '../models/message_model.dart';
 
@@ -21,8 +21,9 @@ abstract class ChatRemoteDataSource {
 
   Stream<List<ConversationDocModel>> watchConversations(String currentUserId);
 
-  Future<String> uploadChatImage({
+  Future<void> markConversationRead({
     required String conversationId,
-    required String localFilePath,
+    required String currentUserId,
+    required String peerId,
   });
 }

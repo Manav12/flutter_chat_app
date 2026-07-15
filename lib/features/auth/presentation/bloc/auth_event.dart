@@ -43,11 +43,10 @@ class AuthLogoutRequested extends AuthEvent {
 }
 
 class AuthProfileUpdateRequested extends AuthEvent {
-  const AuthProfileUpdateRequested({this.name, this.photoUrl});
+  const AuthProfileUpdateRequested({this.name});
   final String? name;
-  final String? photoUrl;
   @override
-  List<Object?> get props => [name, photoUrl];
+  List<Object?> get props => [name];
 }
 
 class AuthPasswordUpdateRequested extends AuthEvent {

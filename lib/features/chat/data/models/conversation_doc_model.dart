@@ -11,6 +11,7 @@ class ConversationDocModel {
     this.lastMessageText,
     this.lastMessageSenderId,
     this.lastMessageAt,
+    this.unreadCounts = const {},
   });
 
   final String conversationId;
@@ -18,9 +19,13 @@ class ConversationDocModel {
   final String? lastMessageText;
   final String? lastMessageSenderId;
   final DateTime? lastMessageAt;
+  final Map<String, int> unreadCounts;
 
   String peerIdFor(String currentUserId) =>
       participantIds.firstWhere((id) => id != currentUserId);
+
+  int unreadCountFor(String currentUserId) =>
+      unreadCounts[currentUserId] ?? 0;
 
   factory ConversationDocModel.fromJson(
     String conversationId,
@@ -38,6 +43,10 @@ class ConversationDocModel {
           : DateTime.fromMillisecondsSinceEpoch(
               json['lastMessageAt'] as int,
             ),
+      unreadCounts: (json['unreadCounts'] as Map?)?.map(
+            (key, value) => MapEntry(key.toString(), (value as num).toInt()),
+          ) ??
+          const {},
     );
   }
 
@@ -46,5 +55,6 @@ class ConversationDocModel {
     'lastMessageText': lastMessageText,
     'lastMessageSenderId': lastMessageSenderId,
     'lastMessageAt': lastMessageAt?.millisecondsSinceEpoch,
+    'unreadCounts': unreadCounts,
   };
 }

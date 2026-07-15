@@ -33,13 +33,6 @@ class ChatTextMessageSent extends ChatEvent {
   List<Object?> get props => [text];
 }
 
-class ChatImageMessageSent extends ChatEvent {
-  const ChatImageMessageSent(this.localFilePath);
-  final String localFilePath;
-  @override
-  List<Object?> get props => [localFilePath];
-}
-
 class ChatMessageEditRequested extends ChatEvent {
   const ChatMessageEditRequested({
     required this.messageId,

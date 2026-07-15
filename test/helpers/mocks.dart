@@ -15,7 +15,7 @@ import 'package:flutter_chat_app/features/chat/domain/entities/message_entity.da
 import 'package:flutter_chat_app/features/chat/domain/repositories/chat_repository.dart';
 import 'package:flutter_chat_app/features/chat/domain/usecases/delete_message_usecase.dart';
 import 'package:flutter_chat_app/features/chat/domain/usecases/edit_message_usecase.dart';
-import 'package:flutter_chat_app/features/chat/domain/usecases/send_image_message_usecase.dart';
+import 'package:flutter_chat_app/features/chat/domain/usecases/mark_conversation_read_usecase.dart';
 import 'package:flutter_chat_app/features/chat/domain/usecases/send_message_usecase.dart';
 import 'package:flutter_chat_app/features/chat/domain/usecases/watch_messages_usecase.dart';
 import 'package:flutter_chat_app/features/users/data/datasources/user_local_data_source.dart';
@@ -52,14 +52,14 @@ class MockUpdatePasswordUseCase extends Mock implements UpdatePasswordUseCase {}
 
 class MockSendMessageUseCase extends Mock implements SendMessageUseCase {}
 
-class MockSendImageMessageUseCase extends Mock
-    implements SendImageMessageUseCase {}
-
 class MockWatchMessagesUseCase extends Mock implements WatchMessagesUseCase {}
 
 class MockEditMessageUseCase extends Mock implements EditMessageUseCase {}
 
 class MockDeleteMessageUseCase extends Mock implements DeleteMessageUseCase {}
+
+class MockMarkConversationReadUseCase extends Mock
+    implements MarkConversationReadUseCase {}
 
 // mocktail needs a stand-in value for any custom type used with any()
 // as an argument matcher — these Fakes are only ever used for that,
@@ -74,9 +74,9 @@ class FakeUpdatePasswordParams extends Fake implements UpdatePasswordParams {}
 
 class FakeSendMessageParams extends Fake implements SendMessageParams {}
 
-class FakeSendImageMessageParams extends Fake
-    implements SendImageMessageParams {}
-
 class FakeWatchMessagesParams extends Fake implements WatchMessagesParams {}
+
+class FakeMarkConversationReadParams extends Fake
+    implements MarkConversationReadParams {}
 
 class FakeMessageEntity extends Fake implements MessageEntity {}

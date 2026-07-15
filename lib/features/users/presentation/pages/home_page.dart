@@ -129,12 +129,50 @@ class _UserListTile extends StatelessWidget {
         ),
       ),
       trailing: item.hasConversation
-          ? Text(
-              DateFormatting.chatListTimestamp(item.lastMessageAt!),
-              style: theme.textTheme.bodySmall,
+          ? Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Text(
+                  DateFormatting.chatListTimestamp(item.lastMessageAt!),
+                  style: theme.textTheme.bodySmall,
+                ),
+                if (item.unreadCount > 0) ...[
+                  const SizedBox(height: 4),
+                  _UnreadBadge(count: item.unreadCount),
+                ],
+              ],
             )
           : null,
       onTap: () => context.push('/chat/${user.uid}', extra: user),
+    );
+  }
+}
+
+class _UnreadBadge extends StatelessWidget {
+  const _UnreadBadge({required this.count});
+
+  final int count;
+
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
+      decoration: BoxDecoration(
+        color: colorScheme.primary,
+        borderRadius: BorderRadius.circular(12),
+      ),
+      constraints: const BoxConstraints(minWidth: 20),
+      child: Text(
+        count > 99 ? '99+' : '$count',
+        textAlign: TextAlign.center,
+        style: TextStyle(
+          color: colorScheme.onPrimary,
+          fontSize: 12,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
     );
   }
 }
