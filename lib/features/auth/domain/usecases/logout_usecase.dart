@@ -1,3 +1,4 @@
+// This file handle logout step.
 import '../../../../core/usecase/usecase.dart';
 import '../../../../core/utils/result.dart';
 import '../repositories/auth_repository.dart';

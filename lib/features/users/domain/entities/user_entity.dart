@@ -1,7 +1,7 @@
+// This file describe what user profile look like, like name, email,
+// photo.
 import 'package:equatable/equatable.dart';
 
-/// A user's profile: name, email, photo. This is saved in Firestore's
-/// `users` collection and used by login, the user list, and chat.
 class UserEntity extends Equatable {
   const UserEntity({
     required this.uid,

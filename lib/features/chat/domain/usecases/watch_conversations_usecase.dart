@@ -1,3 +1,4 @@
+// This file get live list of all chat conversation for home screen.
 import '../../../../core/usecase/usecase.dart';
 import '../../../../core/utils/result.dart';
 import '../entities/conversation_preview.dart';

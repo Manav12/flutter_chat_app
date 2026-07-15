@@ -1,3 +1,5 @@
+// This widget show loading spinner, used on many screen when app wait
+// for data.
 import 'package:flutter/material.dart';
 
 class LoadingIndicator extends StatelessWidget {

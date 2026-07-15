@@ -1,6 +1,5 @@
-/// Data sources throw these when something breaks (server, cache, login).
-/// The repository catches them and turns them into a Failure, so the rest
-/// of the app never has to deal with a raw error.
+// Data source file throw these when something break, like server or
+// cache or login problem. Repository catch it and change into Failure.
 class ServerException implements Exception {
   const ServerException([this.message = 'Server error']);
   final String message;

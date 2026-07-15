@@ -1,3 +1,5 @@
+// This file handle sending photo message. It upload photo first, then
+// send message that point to that photo.
 import '../../../../core/usecase/usecase.dart';
 import '../../../../core/utils/id_generator.dart';
 import '../../../../core/utils/result.dart';
@@ -17,9 +19,6 @@ class SendImageMessageParams {
   final String localFilePath;
 }
 
-/// Uploads the photo first, then sends a message that points to it.
-/// The bloc doesn't need to know it's two steps — it just gets back one
-/// success or one failure at the end.
 class SendImageMessageUseCase extends UseCase<void, SendImageMessageParams> {
   const SendImageMessageUseCase(this._repository);
 

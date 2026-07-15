@@ -1,3 +1,4 @@
+// This file handle editing already sent message.
 import '../../../../core/usecase/usecase.dart';
 import '../../../../core/utils/result.dart';
 import '../repositories/chat_repository.dart';

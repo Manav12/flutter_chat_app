@@ -1,3 +1,5 @@
+// This file describe what one chat message look like, like text, sender,
+// time.
 import 'package:equatable/equatable.dart';
 
 enum MessageType { text, image }

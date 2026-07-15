@@ -1,3 +1,4 @@
+// This file handle register step, make account then save profile too.
 import '../../../../core/usecase/usecase.dart';
 import '../../../../core/utils/result.dart';
 import '../../../users/domain/entities/user_entity.dart';
@@ -16,8 +17,6 @@ class RegisterParams {
   final String password;
 }
 
-/// Creates the account, then saves that person's profile to Firestore.
-/// From outside this class, it just looks like one single step.
 class RegisterUseCase extends UseCase<UserEntity, RegisterParams> {
   const RegisterUseCase(this._authRepository, this._userRepository);
 

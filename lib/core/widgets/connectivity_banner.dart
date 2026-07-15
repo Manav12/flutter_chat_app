@@ -1,10 +1,9 @@
+// This widget show small "no internet" banner on top of screen when
+// phone go offline.
 import 'package:flutter/material.dart';
 
 import '../network/network_info.dart';
 
-/// Wraps a screen and shows a thin "no internet" banner whenever we're
-/// offline. It takes [networkInfo] as a parameter (instead of checking the
-/// internet itself) so it's easy to test with a fake version.
 class ConnectivityBanner extends StatelessWidget {
   const ConnectivityBanner({
     super.key,

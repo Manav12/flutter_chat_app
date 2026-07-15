@@ -1,3 +1,5 @@
+// This is main button widget, used on many screen for submit action.
+// It show spinner inside when loading.
 import 'package:flutter/material.dart';
 
 class PrimaryButton extends StatelessWidget {

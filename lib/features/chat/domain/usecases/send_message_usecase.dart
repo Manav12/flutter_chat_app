@@ -1,3 +1,4 @@
+// This file handle sending one text message.
 import '../../../../core/usecase/usecase.dart';
 import '../../../../core/utils/id_generator.dart';
 import '../../../../core/utils/result.dart';

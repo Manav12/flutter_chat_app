@@ -1,8 +1,6 @@
+// This is simple box, it hold either "it worked" or "it failed". Instead
+// of throwing error everywhere, function just give back one of these.
 import '../error/failures.dart';
-
-/// A simple box that holds either "it worked" (Success) or "it failed"
-/// (ResultFailure). Instead of throwing errors everywhere, functions just
-/// hand back one of these, and we check which one it is.
 
 sealed class Result<T> {
   const Result();

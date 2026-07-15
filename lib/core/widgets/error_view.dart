@@ -1,8 +1,7 @@
+// This widget show "something went wrong" screen with retry button. We
+// use it everywhere error can happen, like no internet or timeout.
 import 'package:flutter/material.dart';
 
-/// A simple "something went wrong" screen with a retry button. We reuse
-/// this everywhere an error can happen — no internet, timeout, server
-/// error, and so on.
 class ErrorView extends StatelessWidget {
   const ErrorView({super.key, required this.message, this.onRetry});
 

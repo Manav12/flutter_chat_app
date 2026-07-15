@@ -1,9 +1,9 @@
+// This file describe one row on home screen list, other person plus
+// last message.
 import 'package:equatable/equatable.dart';
 
 import '../../../users/domain/entities/user_entity.dart';
 
-/// One row on the home screen: the other person, plus a peek at your last
-/// message with them (if you've chatted before).
 class ConversationPreview extends Equatable {
   const ConversationPreview({
     required this.peer,

@@ -1,3 +1,5 @@
+// This file set app look, like button shape, colors and input box
+// style. Only light theme right now, no dark mode.
 import 'package:flutter/material.dart';
 
 import 'app_colors.dart';
@@ -5,17 +7,14 @@ import 'app_colors.dart';
 class AppTheme {
   const AppTheme._();
 
-  static ThemeData get light => _themeFor(Brightness.light);
-  static ThemeData get dark => _themeFor(Brightness.dark);
-
-  static ThemeData _themeFor(Brightness brightness) {
+  static ThemeData get light {
     final colorScheme = ColorScheme.fromSeed(
       seedColor: AppColors.primary,
-      brightness: brightness,
+      brightness: Brightness.light,
     );
     return ThemeData(
       useMaterial3: true,
-      brightness: brightness,
+      brightness: Brightness.light,
       colorScheme: colorScheme,
       scaffoldBackgroundColor: colorScheme.surface,
       appBarTheme: AppBarTheme(
@@ -52,7 +51,17 @@ class AppTheme {
           ),
         ),
       ),
-      snackBarTheme: const SnackBarThemeData(behavior: SnackBarBehavior.floating),
+      outlinedButtonTheme: OutlinedButtonThemeData(
+        style: OutlinedButton.styleFrom(
+          minimumSize: const Size.fromHeight(48),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+        ),
+      ),
+      snackBarTheme: const SnackBarThemeData(
+        behavior: SnackBarBehavior.floating,
+      ),
     );
   }
 }

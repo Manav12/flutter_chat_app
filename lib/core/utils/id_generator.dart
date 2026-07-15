@@ -1,8 +1,7 @@
+// This file make unique id for new message or user, right on phone,
+// before saving to Firestore.
 import 'dart:math';
 
-/// Makes up a unique id for a new message or user, right here on the
-/// phone, before it's ever saved to Firestore. That way we already have
-/// an id to work with, even before the server gives us one.
 class IdGenerator {
   const IdGenerator._();
 

@@ -1,3 +1,4 @@
+// This file get live list of all other user, for home screen.
 import '../../../../core/usecase/usecase.dart';
 import '../../../../core/utils/result.dart';
 import '../entities/user_entity.dart';

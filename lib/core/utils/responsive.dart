@@ -1,7 +1,7 @@
+// This file check screen width, so app know phone is normal phone or
+// tablet.
 import 'package:flutter/widgets.dart';
 
-/// This app only runs on phones and tablets, so one width cutoff is all
-/// we need to tell "phone" from "tablet".
 enum ScreenSize { phone, tablet }
 
 class Responsive {

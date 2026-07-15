@@ -1,7 +1,7 @@
+// This widget show when there is nothing to display yet, like empty
+// user list or chat with no message.
 import 'package:flutter/material.dart';
 
-/// Shown when there's simply nothing to display yet — like an empty user
-/// list or a chat with no messages in it.
 class EmptyStateView extends StatelessWidget {
   const EmptyStateView({
     super.key,

@@ -1,3 +1,4 @@
+// This file handle login step, sign in then get full user profile back.
 import '../../../../core/usecase/usecase.dart';
 import '../../../../core/utils/result.dart';
 import '../../../users/domain/entities/user_entity.dart';
@@ -10,8 +11,6 @@ class LoginParams {
   final String password;
 }
 
-/// Logs in, then fetches that person's full profile — so the screen just
-/// gets back a ready-to-use user, not just a plain id.
 class LoginUseCase extends UseCase<UserEntity, LoginParams> {
   const LoginUseCase(this._authRepository, this._userRepository);
 

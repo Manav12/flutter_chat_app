@@ -1,3 +1,5 @@
+// This file check form fields, like email, password and name, so we
+// know user filled it correct or not.
 class Validators {
   const Validators._();
 
@@ -12,9 +14,12 @@ class Validators {
 
   static String? password(String? value) {
     if (value == null || value.isEmpty) return 'Password is required';
-    // Firebase itself won't accept a password shorter than 6 characters,
-    // so we check for that here too instead of making up our own rule.
     if (value.length < 6) return 'Password must be at least 6 characters';
+    return null;
+  }
+
+  static String? loginPassword(String? value) {
+    if (value == null || value.isEmpty) return 'Password is required';
     return null;
   }
 

@@ -1,8 +1,7 @@
+// When something go wrong in app, we don't throw error, we send back
+// this Failure instead, so app know what problem happen.
 import 'package:equatable/equatable.dart';
 
-/// This is what we hand back when something goes wrong, instead of
-/// throwing an error. It's Equatable so tests can compare two Failures
-/// and know if they're the same.
 sealed class Failure extends Equatable {
   const Failure(this.message);
 

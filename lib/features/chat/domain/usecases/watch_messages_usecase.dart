@@ -1,3 +1,4 @@
+// This file get live message list for one chat.
 import '../../../../core/usecase/usecase.dart';
 import '../../../../core/utils/result.dart';
 import '../entities/message_entity.dart';
