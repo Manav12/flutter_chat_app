@@ -1,7 +1,9 @@
 // This is start point of app. It set up all connection, then open
 // first screen.
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_chat_app/firebase_options.dart';
 import 'package:go_router/go_router.dart';
 
 import 'core/di/injection_container.dart';
@@ -13,11 +15,12 @@ import 'features/auth/presentation/bloc/auth_bloc.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await initDependencies();
 
   final AuthBloc authBloc = sl<AuthBloc>();
   final GoRouter router = buildRouter(authBloc);
-
   runApp(ChatApp(authBloc: authBloc, router: router));
 }
 
