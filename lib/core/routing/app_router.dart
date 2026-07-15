@@ -10,6 +10,8 @@ import '../../features/auth/presentation/pages/onboarding_page.dart';
 import '../../features/auth/presentation/pages/profile_page.dart';
 import '../../features/auth/presentation/pages/register_page.dart';
 import '../../features/auth/presentation/pages/splash_page.dart';
+import '../../features/chat/presentation/pages/chat_page.dart';
+import '../../features/users/domain/entities/user_entity.dart';
 import '../../features/users/presentation/pages/home_page.dart';
 import 'go_router_refresh_stream.dart';
 import 'min_delay_gate.dart';
@@ -65,6 +67,11 @@ GoRouter buildRouter(AuthBloc authBloc) {
       GoRoute(
         path: '/profile',
         builder: (context, state) => const ProfilePage(),
+      ),
+      GoRoute(
+        path: '/chat/:peerId',
+        builder: (context, state) =>
+            ChatPage(peer: state.extra! as UserEntity),
       ),
     ],
   );

@@ -5,8 +5,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import 'core/di/injection_container.dart';
+import 'core/network/network_info.dart';
 import 'core/routing/app_router.dart';
 import 'core/theme/app_theme.dart';
+import 'core/widgets/connectivity_banner.dart';
 import 'features/auth/presentation/bloc/auth_bloc.dart';
 
 Future<void> main() async {
@@ -34,6 +36,10 @@ class ChatApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: AppTheme.light,
         routerConfig: router,
+        builder: (context, child) => ConnectivityBanner(
+          networkInfo: sl<NetworkInfo>(),
+          child: child ?? const SizedBox.shrink(),
+        ),
       ),
     );
   }

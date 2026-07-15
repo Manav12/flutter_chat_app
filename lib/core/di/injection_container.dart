@@ -26,6 +26,7 @@ import '../../features/chat/domain/usecases/send_image_message_usecase.dart';
 import '../../features/chat/domain/usecases/send_message_usecase.dart';
 import '../../features/chat/domain/usecases/watch_conversations_usecase.dart';
 import '../../features/chat/domain/usecases/watch_messages_usecase.dart';
+import '../../features/chat/presentation/bloc/chat_bloc.dart';
 import '../../features/users/data/datasources/fake_user_remote_data_source.dart';
 import '../../features/users/data/datasources/user_local_data_source.dart';
 import '../../features/users/data/datasources/user_local_data_source_impl.dart';
@@ -34,6 +35,7 @@ import '../../features/users/data/repositories/user_repository_impl.dart';
 import '../../features/users/domain/repositories/user_repository.dart';
 import '../../features/users/domain/usecases/update_profile_usecase.dart';
 import '../../features/users/domain/usecases/watch_all_users_usecase.dart';
+import '../../features/users/presentation/bloc/home_bloc.dart';
 import '../network/network_info.dart';
 
 final GetIt sl = GetIt.instance;
@@ -105,7 +107,12 @@ void _initUsers() {
       ),
     )
     ..registerFactory(() => WatchAllUsersUseCase(sl()))
-    ..registerFactory(() => UpdateProfileUseCase(sl()));
+    ..registerFactory(() => UpdateProfileUseCase(sl()))
+    // Factory, not singleton — a fresh HomeBloc every time the Home
+    // screen is entered, unlike the app-wide AuthBloc.
+    ..registerFactory(
+      () => HomeBloc(watchAllUsers: sl(), watchConversations: sl()),
+    );
 }
 
 void _initChat() {
@@ -129,5 +136,16 @@ void _initChat() {
     ..registerFactory(() => WatchMessagesUseCase(sl()))
     ..registerFactory(() => EditMessageUseCase(sl()))
     ..registerFactory(() => DeleteMessageUseCase(sl()))
-    ..registerFactory(() => WatchConversationsUseCase(sl()));
+    ..registerFactory(() => WatchConversationsUseCase(sl()))
+    // Factory — a fresh ChatBloc per conversation opened, scoped to
+    // that one screen and disposed when it closes.
+    ..registerFactory(
+      () => ChatBloc(
+        watchMessages: sl(),
+        sendMessage: sl(),
+        sendImageMessage: sl(),
+        editMessage: sl(),
+        deleteMessage: sl(),
+      ),
+    );
 }
