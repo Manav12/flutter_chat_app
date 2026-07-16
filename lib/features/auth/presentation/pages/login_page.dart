@@ -118,13 +118,6 @@ class _LoginPageState extends State<LoginPage> {
                             "Don't have an account? Register",
                           ),
                         ),
-                        const SizedBox(height: 8),
-                        Text(
-                          'Demo accounts: alice@example.com, bob@example.com, '
-                          'charlie@example.com — password: password123',
-                          textAlign: TextAlign.center,
-                          style: Theme.of(context).textTheme.bodySmall,
-                        ),
                       ],
                     ),
                   ),
